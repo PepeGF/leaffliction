@@ -33,7 +33,7 @@ function Build {
 }
 
 function Run {
-    docker run --rm -it -v ${PWD}:/app leaffliction-dev
+    docker run --name leaffliction-container --rm -it -v ${PWD}:/app leaffliction-dev
 }
 
 function Shell {

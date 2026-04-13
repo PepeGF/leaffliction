@@ -14,6 +14,7 @@ def main():
         sys.exit(1)
 
     data: dict[str, dict[str, int]] = read_data(data_folder)
+    check_or_create_analysis_folder()
     create_charts(data)
 
 
@@ -29,6 +30,12 @@ def read_data(data_folder) -> dict[str, dict[str, int]]:
         for category in os.listdir(data_folder)
     }
     return data
+
+
+def check_or_create_analysis_folder():
+    analysis_folder = "1-Analysis"
+    if not os.path.exists(analysis_folder):
+        os.makedirs(analysis_folder)
 
 
 def create_charts(data: dict[str, dict[str, int]]):
