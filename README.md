@@ -31,3 +31,19 @@ A consecuencia de esto el modelo puede presentar varios problemas:
    - Utiliza métodos de interpolación entre los k-nn de un punto.
 5. Otros.
    - En la web del enlace hay más métodos.
+
+## Técnicas propuestas por el subject:
+1. Flip (voltear)
+2. Rotate (rotar)
+3. Skew (inclinar)
+4. Shear (cizallar, desplazar capas)
+5. Crop  (recortar)
+6. Distorsion (distorsión, deformar irregularmente)
+
+con ejemplos de:
+- Rotation
+- Blur
+- Contrast
+- Scaling
+- Illumination
+- Projective
