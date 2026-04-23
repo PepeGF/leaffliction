@@ -44,24 +44,28 @@ def create_charts(data: dict[str, dict[str, int]]):
         plt.figure(figsize=(12, 6))
         plt.subplot(1, 2, 1)
         plt.pie(
-            subfolders.values(),
-            labels=subfolders.keys(),
+            x=list(subfolders.values()),
+            labels=list(subfolders.keys()),
             autopct='%1.1f%%',
-            colors=colors
+            colors=colors,
             )
         plt.title(f"Distribution of {category}")
         plt.subplot(1, 2, 2)
         plt.bar(
-            subfolders.keys(),
-            subfolders.values(),
+            x=list(subfolders.keys()),
+            height=list(subfolders.values()),
             color=colors
             )
         plt.title(f"Histogram of {category}")
         plt.xlabel("Categories")
         plt.ylabel("Count")
         plt.xticks(rotation=45)
+        # add numbers on top of bars
+        for i, value in enumerate(subfolders.values()):
+            plt.text(i, value, str(value), ha='center', va='bottom')
         plt.tight_layout()
         plt.savefig(f"1-Analysis/{category}_distribution.png")
+        plt.get_current_fig_manager().set_window_title(f"{category.title()}")
         plt.show()
         plt.close()
 

@@ -47,3 +47,18 @@ con ejemplos de:
 - Scaling
 - Illumination
 - Projective
+
+### Rotation
+- Para girar un ángulo $\theta$ se multiplican las coordenadas del píxel por la matriz de rotación M
+
+$$ M = \begin{pmatrix} cos(\theta) & -sin(\theta) \\ sin(\theta) & cos(\theta) \end{pmatrix} $$
+
+- OpenCV permite rotación escalable con el centro (x,y) ajustable, siendo la mantriz de rotación 
+
+$$ M = \begin{pmatrix} \alpha & \beta & (1-\alpha) · x - \beta·y \\ -\beta & \alpha & \beta·x + (1-\alpha)·y \end{pmatrix} $$
+donde
+$$ \alpha = escala · cos\theta \\
+\beta = escala · sin\theta $$
+
+
+
