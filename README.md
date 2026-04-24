@@ -60,5 +60,35 @@ donde
 $$ \alpha = escala · cos\theta \\
 \beta = escala · sin\theta $$
 
+### Flip
+- Voltea la imagen en horizontal, en vertical o ambos
+- Para indicar en qué eje se espcifica el flip_code, que se elige al azar entre -1, 0 y 1, siendo 0 giro alrededor del eje X, 1 (cualquier número positivo) giro alrededor del eje Y y -1 (cualquier número negativo) alrededor de ambos ejes.
 
+### Blur
+- Hay varios tipos de suavizados aplicables: 
+  - Medio
+  - Gaussiano
+  - Mediano
+  - Bilateral.
+- Cambian en cómo ponderan la importancia de los píxeles vecinos del central.
+- Se especifica el tamaño del kernel, que es la zona cercana que se toma como referencia.
+- Cada tipo de blur pondera de forma diferente los píxeles del kernel.
+- El kernel tiene dimensiones impares (ancho y alto) ya que toma los $\frac{m-1}{2}$ píxeles alrededor del píxel cental.
+- cv2.blur() pondera todos los píxeles del kernel por igual haciendo la media. $n = \frac{m-1}{2}$ (radio alrededor del píxel central)
+$$ K = \frac{1}{n^2} \begin{pmatrix} 1 & 1 & 1 \\ 1 & 1 & 1  \\ 1 & 1 & 1 \end{pmatrix} $$
+- cv2.GaussianBlur() también promedia un vecindario, pero con pesos según una distribución gaussiana: el centro pesa más, y los vecinos lejanos pesan menos. Genera un suavizado más natural y no causa tanta distorsión en los bordes.
+
+$$ G(x,y)=\frac{1}{2\pi\sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}}​ $$
+
+- Mediano: toma la mediana de los píxeles vacinos y sustituye el central con este valor. Útil cuando hay ruido de "sal y pimienta".
+- Bilateral: es como gaussiana pero teniendo en cuenta la similitud de los colores dando más peso a los píxeles más semejantes al central.
+
+### Skew
+- Desplaza filas o columnas de píxeles de forma lineal creando formas trapezoidales.
+- Se elige aleatoriamente si el desplazamiento de los píxeles se hace en horizontal o en vertical y la intensidad de la deformación generada. Los valores 0.1 a 0.3 han sido obtenidos por tanteo.
+
+### Shear
+- Matemáticamente es lo mismo que el anterior, pero en esta ocasión se hace que también haya deformación en las dos direcciones simultáneamente auque con diferentes valores.
+- Las elecciones también se hacen de forma aleatoria.
+- Para evitar que si el desplazamiento es hacia la parte no visible de la imagen, se aplica una traslación en el sentido contrario para evitar que se oculte la imagen demasiado. Los desplazamientos los marca los valores $tx$ y $ty$.
 

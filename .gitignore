@@ -3,6 +3,7 @@ leaves/
 **/*.docx
 .vscode/
 *.png
+augmented_directory/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
