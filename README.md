@@ -92,3 +92,17 @@ $$ G(x,y)=\frac{1}{2\pi\sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}}​ $$
 - Las elecciones también se hacen de forma aleatoria.
 - Para evitar que si el desplazamiento es hacia la parte no visible de la imagen, se aplica una traslación en el sentido contrario para evitar que se oculte la imagen demasiado. Los desplazamientos los marca los valores $tx$ y $ty$.
 
+### Crop
+- Es el equivalente a hacer zoom recortando la imagen.
+- El nivel de recorte se elige entre el 80 y el 95% de forma aleatoria.
+- La parte de la imagen que se recorta también se elige de forma aleatoria.
+- Este efecto simula imágenes mal encuadradas en las que parte del elemento importante de la foto ha salido recortado.
+- Se redimensiona la imagen para que tenga el mismo tamaño que la original usando resize.
+
+### Distorsion
+- Genera una distorsión geométrica de tipo lente sobre la imagen.
+- Los coeficientes $k$ controlan cuánto se curva la imagen, $k>0$ tira hacia adentro, $k<0$ empuja hacia afuera. $k1$ domina el efecto principal, $k2$ y $k3$ refinan cómo crece la curvatura en las zonas más externas.
+- Los coeficientes $p$ controlan la distorsión tangencial, modelan la desalineación de la lente para que la curvatura no sea simétruca. Visualmente parece un arrastre hacia una diagonal o un lado. Son más bajos para evitar que las deformaciones resulten antinaturales.
+
+
+

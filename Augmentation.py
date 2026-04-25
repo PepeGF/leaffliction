@@ -208,12 +208,12 @@ def apply_crop(image_info: dict[str, str | np.ndarray]) -> None:
     status: str = image_info.get("status")  # type: ignore
     filename: str = image_info.get("filename")  # type: ignore
     height, width, _ = image.shape
-    crop_size = random.uniform(0.8, 0.95)
-    new_width = int(width * crop_size)
-    new_height = int(height * crop_size)
-    x_start = random.randint(0, width - new_width)
-    y_start = random.randint(0, height - new_height)
-    cropped_image = image[y_start:y_start + new_height, x_start:x_start + new_width]
+    crop_size: float = random.uniform(0.8, 0.95)
+    new_width: int = int(width * crop_size)
+    new_height: int = int(height * crop_size)
+    x_start: int = random.randint(0, width - new_width)
+    y_start: int = random.randint(0, height - new_height)
+    cropped_image: np.ndarray = image[y_start:y_start + new_height, x_start:x_start + new_width]
     cropped_image = cv2.resize(cropped_image, (width, height))
     save_augmented_image(
         cropped_image,
@@ -228,29 +228,36 @@ def apply_distorsion(image_info: dict[str, str | np.ndarray]) -> None:
     category: str = image_info.get("category")  # type: ignore
     status: str = image_info.get("status")  # type: ignore
     filename: str = image_info.get("filename")  # type: ignore
+
     height, width, _ = image.shape
-    k1 = random.uniform(-0.0005, 0.0005)
-    k2 = random.uniform(-0.0005, 0.0005)
-    k3 = random.uniform(-0.0005, 0.0005)
-    dist_coeffs = np.array([k1, k2, k3], dtype=np.float32)
+
+    # Radiales + tangenciales
+    k1 = random.uniform(-0.6, 0.6)
+    k2 = random.uniform(-0.3, 0.3)
+    p1 = random.uniform(-0.06, 0.06)
+    p2 = random.uniform(-0.06, 0.06)
+    k3 = random.uniform(-0.2, 0.2)
+
+    dist_coeffs = np.array([k1, k2, p1, p2, k3], dtype=np.float32)
+
+    fx = width
+    fy = height
+    cx = width / 2
+    cy = height / 2
     camera_matrix = np.array([
-        [width, 0, width / 2],
-        [0, width, height / 2],
-        [0, 0, 1]
+        [fx, 0,  cx],
+        [0,  fy, cy],
+        [0,  0,  1]
     ], dtype=np.float32)
-    distorted_image = cv2.undistort(
-        image,
-        camera_matrix,
-        dist_coeffs,
-        None,
-        camera_matrix
-    )
+
+    distorted_image = cv2.undistort(image, camera_matrix, dist_coeffs)
     save_augmented_image(
         distorted_image,
         category,
         status,
         filename,
-        augmentation="Distortion")
+        augmentation="Distortion",
+    )
 
 
 if __name__ == "__main__":
@@ -258,15 +265,15 @@ if __name__ == "__main__":
     create_augmented_directories()
     images_iterator = iter_images_from_folder("leaves")
     for i, image_info in enumerate(images_iterator):
-        if i > 50:  # Solo procesar las primeras 5 imágenes para pruebas
-            break
-        # apply_rotation(image_info)
-        # apply_flip(image_info)
-        # apply_blur(image_info)
-        # apply_skew(image_info)
-        # apply_shear(image_info)
-        # apply_crop(image_info)
-        # apply_distorsion(image_info)
+        # if i > 50:  # Solo procesar las primeras 5 imágenes para pruebas
+        #     break
+        apply_rotation(image_info)
+        apply_flip(image_info)
+        apply_blur(image_info)
+        apply_skew(image_info)
+        apply_shear(image_info)
+        apply_crop(image_info)
+        apply_distorsion(image_info)
         # print(f"Processing image {i + 1}")
         pass
     duration = time.time() - start
